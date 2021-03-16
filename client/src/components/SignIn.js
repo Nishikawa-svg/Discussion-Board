@@ -79,7 +79,7 @@ export default function LogInForm({ setUserInfo }) {
             <Grid item xs={10}>
               <Grid container direction="column">
                 <Grid item>
-                  <LockIcon className={classes.lockicon} />
+                  <LockIcon color="secondary" className={classes.lockicon} />
                 </Grid>
                 <Grid item>
                   <div className={classes.title}>Sign In</div>

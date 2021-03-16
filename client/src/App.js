@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
 
 import SignIn from "./components/SignIn";
@@ -17,12 +17,18 @@ const useStyles = makeStyles({
 });
 
 function App() {
+  const history = useHistory();
   const classes = useStyles();
   const [userInfo, setUserInfo] = useState(initialState.userInfo);
   const [chatRooms, setChatRooms] = useState([]);
   useEffect(() => {
     console.log("userInfo ->", userInfo);
   }, [userInfo]);
+  useEffect(() => {
+    return () => {
+      history.push("/");
+    };
+  }, []);
   console.log("room list", chatRooms);
   return (
     <div className={classes.app}>

@@ -24,6 +24,7 @@ export default function Chat({ roomId, roomName, userName }) {
       console.log("new message list ->", messageList);
       setMessages(messageList);
     });
+
     return () => {
       socket.disconnect();
       console.log(roomId, "Chat component was unmounted");
