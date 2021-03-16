@@ -118,7 +118,7 @@ export default function LogInForm({setUserInfo}){
                                         variant='contained'
                                         onClick={handleClick}
                                     >
-                                        Sing in
+                                        Sign in
                                     </Button>
                                 </Grid>
                                 <Grid container justify='flex-end'>
