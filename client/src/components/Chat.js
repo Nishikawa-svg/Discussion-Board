@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {
     Button,Input,
-} from '@material-ui/core'
+} from '@material-ui/core';
 import io from 'socket.io-client';
 import Axios from 'axios';
 
@@ -29,7 +29,7 @@ export default function Chat({roomId,roomName,userName}){
             socket.disconnect();
             console.log(roomId,'Chat component was unmounted')
         };
-    },[])
+    },[]);
     const handleClick = (e) => {
         e.preventDefault();
         const sendMessage = {roomId : roomId,name : userName, content : text}

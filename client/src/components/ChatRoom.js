@@ -1,8 +1,18 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
+import Axios from 'axios';
 
+export default function ChatRoom({userName,chatRooms,setChatRooms}){
+    useEffect(() => {
+        console.log('chat room mounted');
+        Axios.get('http://localhost:3333/getchatrooms')
+            .then(response => {
+                console.log(response.data);
+                setChatRooms(response.data);
+            })
+        return () => {console.log('chat room unmounted')};
+    },[]);
 
-export default function ChatRoom({userName,chatRooms}){
     return(
         <>
             <h1>Hey! {userName}!</h1>
@@ -14,6 +24,11 @@ export default function ChatRoom({userName,chatRooms}){
                     </Link>
                 </div>
             ))}
+            <h3>
+                <Link to='/createroom'>
+                    create room
+                </Link>
+            </h3>
         </>
     )
 }

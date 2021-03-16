@@ -17,6 +17,7 @@ const debugMode = true;
 
 let userList = [];
 let messageList = [];
+let roomList = [];
 if(debugMode){
     userList = [
         {userId : 0, name : 'admin', password : 'password'},
@@ -24,6 +25,12 @@ if(debugMode){
         {userId : 2, name : 'two', password : 'password'},
         {userId : 3, name : 'three', password : 'password'},
         {userId : 4, name : 'four', password : 'password'},
+    ];
+    roomList = [
+        {roomId : 1, roomName : 'room1', founderId : 0},
+        {roomId : 2, roomName : 'room2', founderId : 0},
+        {roomId : 3, roomName : 'room3', founderId : 0},
+        {roomId : 4, roomName : 'room4', founderId : 0},
     ];
     messageList = [
         [
@@ -35,7 +42,10 @@ if(debugMode){
         [
             {name : 'admin', content : 'welcome to chat room3'},
         ],
-    ]
+        [
+            {name : 'admin', content : 'welcome to chat room4'},
+        ],
+    ];
 }
 
 app.post('/signup', (req,res) => {
@@ -60,12 +70,22 @@ app.post('/login', (req,res) => {
     const name = req.body.userInfo.name;
     const password = req.body.userInfo.password;
     let valid = false;
+    let id = -1;
     userList.map(user => {
         // console.log(user.name,name,user.password,password);
-        if(user.name===name && user.password===password) valid = true;
+        if(user.name===name && user.password===password) {
+            valid = true;
+            id = user.userId;
+        }
     })
     let msg;
-    if(valid) msg = {authentication : true, message : 'Login was successful'}
+    if(valid){
+        msg = {
+            authentication : true, message : 'Login was successful',
+            userInfo : userList[id],
+        }
+
+    } 
     else msg = {authentication : false, message : 'Login failed'}
     res.send(msg)
 })
@@ -73,11 +93,18 @@ app.post('/login', (req,res) => {
 app.post('/load', (req,res) => {
     const roomId = req.body.roomId;
     console.log('load request from userId :',roomId);
+    console.log('messageList',messageList);
     res.send(messageList[roomId-1]);
+})
+
+app.get('/getchatrooms', (req,res) => {
+    //console.log('get chat rooms ->',roomList);
+    res.send(roomList);
 })
 
 io.on('connection',(socket) => {
     console.log(socket.id,'is connecting');
+
     socket.on('sendMessage',(input) => {
         console.log(input);
         const {roomId, name, content} = input.sendMessage;
@@ -87,6 +114,17 @@ io.on('connection',(socket) => {
         console.log('new message list',messageList);
         io.emit('newMessage',messageList[roomId-1]);
     })
+
+    socket.on('createRoom',(input) => {
+        console.log('new room ->',input);
+        const roomId = roomList.length+1;
+        const {roomName, founderId} = input.newRoom;
+        roomList.push({roomId : roomId, roomName : roomName, founderId : founderId});
+        console.log('new room list ->',roomList);
+        messageList.push([{name : 'admin', content : `welcome to chat ${roomName}`}]);
+        io.emit('newRoom',roomList);
+    })
+
     socket.on('disconnect',() => {console.log(socket.id,'was disconnected')})
 })
 
