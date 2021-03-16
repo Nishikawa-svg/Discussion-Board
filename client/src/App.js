@@ -4,8 +4,8 @@ import {
   makeStyles
 } from '@material-ui/core';
 
-import SingIn from './components/SingIn';
-import SingUp from './components/SingUp';
+import SignIn from './components/SignIn';
+import SignUp from './components/SignUp';
 import ChatRoom from './components/ChatRoom';
 import Chat from './components/Chat';
 import CreateRoom from './components/CreateRoom';
@@ -31,12 +31,12 @@ function App() {
     <div className={classes.app}>
       <Router>
         <Route path='/' exact>
-          <SingIn 
+          <SignIn 
             setUserInfo={setUserInfo}
           />
         </Route>
-        <Route path='/singup'>
-          <SingUp />
+        <Route path='/signup'>
+          <SignUp />
         </Route>
         <Route path='/chatroom' exact>
           <ChatRoom 

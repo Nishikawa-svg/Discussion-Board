@@ -81,7 +81,7 @@ export default function LogInForm({setUserInfo}){
                                     />
                                 </Grid>
                                 <Grid item>
-                                    <div className={classes.title}>Sing In</div>
+                                    <div className={classes.title}>Sign In</div>
                                 </Grid>
                                 <Grid container justify='flex-start'>
                                     <Grid item>
@@ -118,11 +118,11 @@ export default function LogInForm({setUserInfo}){
                                         variant='contained'
                                         onClick={handleClick}
                                     >
-                                        Sing in
+                                        Sign in
                                     </Button>
                                 </Grid>
                                 <Grid container justify='flex-end'>
-                                    <Link to='singup' className={classes.link}>
+                                    <Link to='signup' className={classes.link}>
                                         Don't hane an account? Sign UP
                                     </Link>
                                 </Grid>
