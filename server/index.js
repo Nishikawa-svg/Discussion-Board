@@ -26,10 +26,10 @@ if (debugMode) {
     { userId: 4, name: "four", password: "password" },
   ];
   roomList = [
-    { roomId: 1, roomName: "room1", founderId: 0 },
-    { roomId: 2, roomName: "room2", founderId: 0 },
-    { roomId: 3, roomName: "room3", founderId: 0 },
-    { roomId: 4, roomName: "room4", founderId: 0 },
+    { roomId: 1, roomName: "room1", founderId: 0, lastUpdate: "", comments: 1 },
+    { roomId: 2, roomName: "room2", founderId: 0, lastUpdate: "", comments: 1 },
+    { roomId: 3, roomName: "room3", founderId: 0, lastUpdate: "", comments: 1 },
+    { roomId: 4, roomName: "room4", founderId: 0, lastUpdate: "", comments: 1 },
   ];
   messageList = [
     [{ name: "admin", content: "welcome to chat room1" }],
