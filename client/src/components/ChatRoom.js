@@ -38,7 +38,7 @@ export default function ChatRoom({ userName, chatRooms, setChatRooms }) {
     const s = Math.floor(ms / 1000);
     const m = Math.floor(ms / 1000 / 60);
     const h = Math.floor(ms / 1000 / 60 / 60);
-    const d = Math.floor(ms / 1000 / 60 / 6 / 24);
+    const d = Math.floor(ms / 1000 / 60 / 60 / 24);
     if (d > 0) {
       return `${d} day ago`;
     } else if (h > 0) {
