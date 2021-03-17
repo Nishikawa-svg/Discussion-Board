@@ -26,37 +26,61 @@ if (debugMode) {
     { userId: 4, name: "four", password: "password" },
   ];
   roomList = [
-    { roomId: 1, roomName: "room1", founderId: 0, lastUpdate: "", comments: 1 },
-    { roomId: 2, roomName: "room2", founderId: 0, lastUpdate: "", comments: 1 },
-    { roomId: 3, roomName: "room3", founderId: 0, lastUpdate: "", comments: 1 },
-    { roomId: 4, roomName: "room4", founderId: 0, lastUpdate: "", comments: 1 },
+    {
+      roomId: 1,
+      roomName: "room1",
+      founderId: 0,
+      lastUpdate: Date.now(),
+      comments: 1,
+    },
+    {
+      roomId: 2,
+      roomName: "room2",
+      founderId: 0,
+      lastUpdate: Date.now(),
+      comments: 1,
+    },
+    {
+      roomId: 3,
+      roomName: "room3",
+      founderId: 0,
+      lastUpdate: Date.now(),
+      comments: 1,
+    },
+    {
+      roomId: 4,
+      roomName: "room4",
+      founderId: 0,
+      lastUpdate: Date.now(),
+      comments: 1,
+    },
   ];
   messageList = [
     [
       {
         name: "admin",
-        content: "welcome to chat room1",
+        content: "welcome to room1",
         submissionTime: Date.now(),
       },
     ],
     [
       {
         name: "admin",
-        content: "welcome to chat room2",
+        content: "welcome to room2",
         submissionTime: Date.now(),
       },
     ],
     [
       {
         name: "admin",
-        content: "welcome to chat room3",
+        content: "welcome to room3",
         submissionTime: Date.now(),
       },
     ],
     [
       {
         name: "admin",
-        content: "welcome to chat room4",
+        content: "welcome to room4",
         submissionTime: Date.now(),
       },
     ],
@@ -106,7 +130,7 @@ app.post("/login", (req, res) => {
 
 app.post("/load", (req, res) => {
   const roomId = req.body.roomId;
-  console.log("load request from userId :", roomId);
+  console.log("load request from roomId :", roomId);
   console.log("messageList", messageList);
   res.send(messageList[roomId - 1]);
 });
@@ -124,13 +148,13 @@ app.post("/createroom", (req, res) => {
     ...newRoom,
     roomId: roomId,
     lastUpdate: Date.now(),
-    comments: 0,
+    comments: 1,
   };
   roomList.push(newRoom);
   messageList.push([
     {
       name: "admin",
-      content: `welcome to chat ${req.body.newRoom.roomName}`,
+      content: `welcome to ${req.body.newRoom.roomName}`,
       submissionTime: Date.now(),
     },
   ]);
@@ -150,6 +174,8 @@ io.on("connection", (socket) => {
       content: content,
       submissionTime: Date.now(),
     });
+    roomList[roomId - 1].lastUpdate = Date.now();
+    roomList[roomId - 1].comments++;
     console.log("new message list", messageList);
     io.emit("newMessage", messageList[roomId - 1]);
   });
