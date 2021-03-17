@@ -37,12 +37,16 @@ export default function Chat({ roomId, roomName, userName }) {
     alert(text);
     setText("");
   };
+  const getDate = (input) => {
+    const date = new Date(input);
+    return date.toLocaleDateString() + " " + date.toLocaleTimeString();
+  };
   return (
     <>
       <h1>Chat room : {roomName}</h1>
       {messages.map((m) => (
         <div key={m.content}>
-          {m.name} : {m.content}
+          {m.name} : {m.content} :{getDate(m.submissionTime)}
         </div>
       ))}
       <div>

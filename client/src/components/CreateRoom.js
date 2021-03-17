@@ -1,27 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { Button, Input } from "@material-ui/core";
-import io from "socket.io-client";
-const ENDPOINT = "http://localhost:3333";
-let socket;
+import { useHistory } from "react-router-dom";
+import Axios from "axios";
+
 export default function CreateRoom({ userInfo, setChatRooms }) {
+  const history = useHistory();
   const [roomName, setRoomName] = useState("");
   useEffect(() => {
     console.log("create room was mounted");
-    socket = io(ENDPOINT);
-    socket.on("newRoom", (roomList) => {
-      setChatRooms(roomList);
-    });
     return () => {
       console.log("create room was unmounted");
-      socket.disconnect();
     };
   }, []);
   const handleClick = (e) => {
     e.preventDefault();
     const newRoom = { roomName: roomName, founderId: userInfo.userId };
-    socket.emit("createRoom", { newRoom });
+    // socket.emit("createRoom", { newRoom });
+    Axios.post("http://localhost:3333/createroom", { newRoom }).then(
+      (response) => {
+        console.log("new room list ->", response.data);
+        setChatRooms(response.data);
+      }
+    );
     alert(`new room ${roomName} created`);
     setRoomName("");
+    history.push("/chatroom");
   };
   return (
     <>

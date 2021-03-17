@@ -32,10 +32,34 @@ if (debugMode) {
     { roomId: 4, roomName: "room4", founderId: 0, lastUpdate: "", comments: 1 },
   ];
   messageList = [
-    [{ name: "admin", content: "welcome to chat room1" }],
-    [{ name: "admin", content: "welcome to chat room2" }],
-    [{ name: "admin", content: "welcome to chat room3" }],
-    [{ name: "admin", content: "welcome to chat room4" }],
+    [
+      {
+        name: "admin",
+        content: "welcome to chat room1",
+        submissionTime: Date.now(),
+      },
+    ],
+    [
+      {
+        name: "admin",
+        content: "welcome to chat room2",
+        submissionTime: Date.now(),
+      },
+    ],
+    [
+      {
+        name: "admin",
+        content: "welcome to chat room3",
+        submissionTime: Date.now(),
+      },
+    ],
+    [
+      {
+        name: "admin",
+        content: "welcome to chat room4",
+        submissionTime: Date.now(),
+      },
+    ],
   ];
 }
 
@@ -92,6 +116,27 @@ app.get("/getchatrooms", (req, res) => {
   res.send(roomList);
 });
 
+app.post("/createroom", (req, res) => {
+  console.log("createroom", req.body);
+  let newRoom = req.body.newRoom;
+  const roomId = roomList.length + 1;
+  newRoom = {
+    ...newRoom,
+    roomId: roomId,
+    lastUpdate: Date.now(),
+    comments: 0,
+  };
+  roomList.push(newRoom);
+  messageList.push([
+    {
+      name: "admin",
+      content: `welcome to chat ${req.body.newRoom.roomName}`,
+      submissionTime: Date.now(),
+    },
+  ]);
+  res.send(roomList);
+});
+
 io.on("connection", (socket) => {
   console.log(socket.id, "is connecting");
 
@@ -100,21 +145,13 @@ io.on("connection", (socket) => {
     const { roomId, name, content } = input.sendMessage;
     // console.log(input.sendMessage.name);
     // console.log(input.sendMessage.content);
-    messageList[roomId - 1].push({ name: name, content: content });
+    messageList[roomId - 1].push({
+      name: name,
+      content: content,
+      submissionTime: Date.now(),
+    });
     console.log("new message list", messageList);
     io.emit("newMessage", messageList[roomId - 1]);
-  });
-
-  socket.on("createRoom", (input) => {
-    console.log("new room ->", input);
-    const roomId = roomList.length + 1;
-    const { roomName, founderId } = input.newRoom;
-    roomList.push({ roomId: roomId, roomName: roomName, founderId: founderId });
-    console.log("new room list ->", roomList);
-    messageList.push([
-      { name: "admin", content: `welcome to chat ${roomName}` },
-    ]);
-    io.emit("newRoom", roomList);
   });
 
   socket.on("disconnect", () => {
