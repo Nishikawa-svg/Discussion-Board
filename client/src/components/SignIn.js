@@ -3,6 +3,7 @@ import { Button, makeStyles, Grid, Paper, TextField } from "@material-ui/core";
 import LockIcon from "@material-ui/icons/Lock";
 import { useHistory, Link } from "react-router-dom";
 import Axios from "axios";
+import sha256 from "crypto-js/sha256";
 
 const useStyles = makeStyles({
   paper: {
@@ -48,11 +49,13 @@ export default function LogInForm({ setUserInfo }) {
 
   const handleClick = (e) => {
     e.preventDefault();
-    //alert(`name : ${name}\npassword : ${password}`);
-    const userInfo = { name: name, password: password };
+    const hashedPassword = sha256(password).toString();
+    console.log(hashedPassword);
+    const userInfo = { name: name, password: hashedPassword };
+
     Axios.post("http://localhost:3333/login", { userInfo }).then((response) => {
       if (response.data.authentication) {
-        console.log("sing in user info ->", response.data);
+        console.log("sign in user info ->", response.data);
         setUserInfo(response.data.userInfo);
         alert(response.data.message);
         history.push("/chatroom");
@@ -100,6 +103,7 @@ export default function LogInForm({ setUserInfo }) {
                     fullWidth
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    type="Password"
                   />
                 </Grid>
                 <Grid item>

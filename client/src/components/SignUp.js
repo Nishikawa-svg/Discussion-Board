@@ -10,6 +10,7 @@ import {
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import { useHistory, Link } from "react-router-dom";
 import Axios from "axios";
+import sha256 from "crypto-js/sha256";
 
 const useStyles = makeStyles({
   paper: {
@@ -52,9 +53,17 @@ export default function SignUp() {
   let history = useHistory();
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const handleClick = (e) => {
     e.preventDefault();
-    const signUpUser = { name: name, password: password };
+    if (password !== confirmPassword) {
+      alert("confirm password");
+      setPassword("");
+      setConfirmPassword("");
+      return;
+    }
+    const hashedPassword = sha256(password).toString();
+    const signUpUser = { name: name, password: hashedPassword };
     Axios.post("http://localhost:3333/signup", { signUpUser }).then(
       (response) => {
         console.log(response.data);
@@ -103,6 +112,20 @@ export default function SignUp() {
                     fullWidth
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    type="Password"
+                  />
+                </Grid>
+                <Grid container justify="flex-start">
+                  <Grid item>Confirm Password</Grid>
+                </Grid>
+                <Grid item>
+                  <TextField
+                    className={classes.input}
+                    variant="outlined"
+                    fullWidth
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    type="Password"
                   />
                 </Grid>
                 <Grid item>

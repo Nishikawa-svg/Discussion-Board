@@ -16,81 +16,10 @@ let userList = [];
 let messageList = [];
 let roomList = [];
 if (debugMode) {
-  userList = [
-    { userId: 0, name: "admin", password: "password" },
-    { userId: 1, name: "one", password: "password" },
-    { userId: 2, name: "two", password: "password" },
-    { userId: 3, name: "three", password: "password" },
-    { userId: 4, name: "four", password: "password" },
-  ];
-  roomList = [
-    {
-      roomId: 1,
-      roomName: "c++",
-      founderId: 0,
-      foundedDate: Date.now(),
-      lastUpdate: Date.now(),
-      comments: 1,
-      content: "talk about c++",
-    },
-    {
-      roomId: 2,
-      roomName: "javascript",
-      founderId: 0,
-      foundedDate: Date.now(),
-      lastUpdate: Date.now(),
-      comments: 1,
-      content: "talk about javascript",
-    },
-    {
-      roomId: 3,
-      roomName: "python",
-      founderId: 0,
-      foundedDate: Date.now(),
-      lastUpdate: Date.now(),
-      comments: 1,
-      content: "talk about python",
-    },
-    {
-      roomId: 4,
-      roomName: "rust",
-      founderId: 0,
-      foundedDate: Date.now(),
-      lastUpdate: Date.now(),
-      comments: 1,
-      content: "talk about rust",
-    },
-  ];
-  messageList = [
-    [
-      {
-        name: "admin",
-        content: "welcome to room1",
-        submissionTime: Date.now(),
-      },
-    ],
-    [
-      {
-        name: "admin",
-        content: "welcome to room2",
-        submissionTime: Date.now(),
-      },
-    ],
-    [
-      {
-        name: "admin",
-        content: "welcome to room3",
-        submissionTime: Date.now(),
-      },
-    ],
-    [
-      {
-        name: "admin",
-        content: "welcome to room4",
-        submissionTime: Date.now(),
-      },
-    ],
-  ];
+  const sampleCase = require("./sampleCase");
+  userList = sampleCase.sampleUserList;
+  messageList = sampleCase.sampleMessageList;
+  roomList = sampleCase.smapleRoomList;
 }
 
 app.post("/signup", (req, res) => {

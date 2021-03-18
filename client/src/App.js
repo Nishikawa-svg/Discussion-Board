@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import { makeStyles } from "@material-ui/core";
-
 import Header from "./components/Header";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
@@ -13,10 +11,7 @@ const initialState = {
   userInfo: { userId: null, name: "", password: "" },
 };
 
-const useStyles = makeStyles({});
-
 function App() {
-  const classes = useStyles();
   const [userInfo, setUserInfo] = useState(initialState.userInfo);
   const [chatRooms, setChatRooms] = useState([]);
   useEffect(() => {
