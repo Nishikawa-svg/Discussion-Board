@@ -1,18 +1,12 @@
 import React, { useState } from "react";
-import {
-  Button,
-  Input,
-  makeStyles,
-  Grid,
-  Paper,
-  TextField,
-} from "@material-ui/core";
+import { Button, makeStyles, Grid, Paper, TextField } from "@material-ui/core";
 import LockIcon from "@material-ui/icons/Lock";
 import { useHistory, Link } from "react-router-dom";
 import Axios from "axios";
 
 const useStyles = makeStyles({
   paper: {
+    marginTop: 50,
     width: 400,
     textAlign: "center",
   },
@@ -37,6 +31,7 @@ const useStyles = makeStyles({
     "&:hover": {
       backgroundColor: "blue",
     },
+    textTransform: "none",
   },
   link: {
     textDecoration: "none",
@@ -57,7 +52,7 @@ export default function LogInForm({ setUserInfo }) {
     const userInfo = { name: name, password: password };
     Axios.post("http://localhost:3333/login", { userInfo }).then((response) => {
       if (response.data.authentication) {
-        console.log(response.data);
+        console.log("sing in user info ->", response.data);
         setUserInfo(response.data.userInfo);
         alert(response.data.message);
         history.push("/chatroom");
@@ -72,7 +67,6 @@ export default function LogInForm({ setUserInfo }) {
 
   return (
     <div>
-      <h1>my chat app</h1>
       <Grid container justify="center">
         <Paper className={classes.paper}>
           <Grid container justify="center">
@@ -119,7 +113,7 @@ export default function LogInForm({ setUserInfo }) {
                   </Button>
                 </Grid>
                 <Grid container justify="flex-end">
-                  <Link to="signup" className={classes.link}>
+                  <Link to="/signup" className={classes.link}>
                     Don't hane an account? Sign UP
                   </Link>
                 </Grid>

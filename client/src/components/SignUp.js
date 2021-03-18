@@ -8,11 +8,12 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import Axios from "axios";
 
 const useStyles = makeStyles({
   paper: {
+    marginTop: 50,
     width: 400,
     textAlign: "center",
   },
@@ -37,10 +38,11 @@ const useStyles = makeStyles({
     "&:hover": {
       backgroundColor: "blue",
     },
+    textTransform: "none",
   },
   link: {
     textDecoration: "none",
-    fontsize: 12,
+    fontSize: 14,
     color: "blue",
   },
 });
@@ -112,6 +114,13 @@ export default function SignUp() {
                   >
                     Sign up
                   </Button>
+                </Grid>
+                <Grid container justify="flex-end">
+                  <Link to="/" className={classes.link}>
+                    <Grid item>
+                      <div>I have my own account</div>
+                    </Grid>
+                  </Link>
                 </Grid>
               </Grid>
             </Grid>

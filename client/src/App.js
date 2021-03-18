@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
 
+import Header from "./components/Header";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import ChatRoom from "./components/ChatRoom";
@@ -12,9 +13,7 @@ const initialState = {
   userInfo: { userId: null, name: "", password: "" },
 };
 
-const useStyles = makeStyles({
-  // app : {backgroundColor : 'blue'},
-});
+const useStyles = makeStyles({});
 
 function App() {
   const classes = useStyles();
@@ -28,8 +27,9 @@ function App() {
   }, []);
   console.log("room list", chatRooms);
   return (
-    <div className={classes.app}>
+    <>
       <Router>
+        <Header userInfo={userInfo} setUserInfo={setUserInfo} />
         <Route path="/" exact>
           <SignIn setUserInfo={setUserInfo} />
         </Route>
@@ -52,6 +52,7 @@ function App() {
             <Chat
               roomId={room.roomId}
               roomName={room.roomName}
+              roomContent={room.content}
               userName={userInfo.name}
             />
           </Route>
@@ -60,7 +61,7 @@ function App() {
           <CreateRoom userInfo={userInfo} setChatRooms={setChatRooms} />
         </Route>
       </Router>
-    </div>
+    </>
   );
 }
 

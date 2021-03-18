@@ -6,8 +6,6 @@ const cors = require("cors");
 const io = require("socket.io")(httpServer, {
   cors: { origin: "*" },
 });
-//const bodyParser = require('body-parser');
-//app.use(bodyParser.urlencoded({extended : true}));
 const port = 3333;
 app.use(cors());
 app.use(express.json());
@@ -28,31 +26,39 @@ if (debugMode) {
   roomList = [
     {
       roomId: 1,
-      roomName: "room1",
+      roomName: "c++",
       founderId: 0,
+      foundedDate: Date.now(),
       lastUpdate: Date.now(),
       comments: 1,
+      content: "talk about c++",
     },
     {
       roomId: 2,
-      roomName: "room2",
+      roomName: "javascript",
       founderId: 0,
+      foundedDate: Date.now(),
       lastUpdate: Date.now(),
       comments: 1,
+      content: "talk about javascript",
     },
     {
       roomId: 3,
-      roomName: "room3",
+      roomName: "python",
       founderId: 0,
+      foundedDate: Date.now(),
       lastUpdate: Date.now(),
       comments: 1,
+      content: "talk about python",
     },
     {
       roomId: 4,
-      roomName: "room4",
+      roomName: "rust",
       founderId: 0,
+      foundedDate: Date.now(),
       lastUpdate: Date.now(),
       comments: 1,
+      content: "talk about rust",
     },
   ];
   messageList = [
@@ -131,12 +137,24 @@ app.post("/login", (req, res) => {
 app.post("/load", (req, res) => {
   const roomId = req.body.roomId;
   console.log("load request from roomId :", roomId);
-  console.log("messageList", messageList);
-  res.send(messageList[roomId - 1]);
+  // console.log("messageList", messageList);
+  const founderId = roomList[roomId - 1].founderId;
+  const foundedDate = roomList[roomId - 1].foundedDate;
+  let founderName;
+  userList.map((person) => {
+    if (person.userId === founderId) founderName = person.name;
+  });
+  const founderInfo = {
+    founderId: founderId,
+    founderName: founderName,
+    foundedDate: foundedDate,
+  };
+  loadedData = { msg: messageList[roomId - 1], founderInfo: founderInfo };
+  console.log("loaded room data and all messages ->", loadedData);
+  res.send(loadedData);
 });
 
 app.get("/getchatrooms", (req, res) => {
-  //console.log('get chat rooms ->',roomList);
   res.send(roomList);
 });
 
@@ -147,6 +165,7 @@ app.post("/createroom", (req, res) => {
   newRoom = {
     ...newRoom,
     roomId: roomId,
+    foundedDate: Date.now(),
     lastUpdate: Date.now(),
     comments: 1,
   };
@@ -165,7 +184,7 @@ io.on("connection", (socket) => {
   console.log(socket.id, "is connecting");
 
   socket.on("sendMessage", (input) => {
-    console.log(input);
+    console.log("recieved msg ->", input);
     const { roomId, name, content } = input.sendMessage;
     // console.log(input.sendMessage.name);
     // console.log(input.sendMessage.content);
@@ -176,7 +195,7 @@ io.on("connection", (socket) => {
     });
     roomList[roomId - 1].lastUpdate = Date.now();
     roomList[roomId - 1].comments++;
-    console.log("new message list", messageList);
+    // console.log("new message list", messageList);
     io.emit("newMessage", messageList[roomId - 1]);
   });
 

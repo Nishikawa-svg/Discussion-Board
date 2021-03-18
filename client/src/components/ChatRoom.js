@@ -1,9 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Grid, Paper, makeStyles, Button } from "@material-ui/core";
+import AutorenewIcon from "@material-ui/icons/Autorenew";
 import Axios from "axios";
 
 const useStyles = makeStyles({
+  menu: {
+    textAlign: "center",
+    color: "#444444",
+  },
+  reloadbutton: {
+    marginBottom: 10,
+    textTransform: "None",
+    marginRight: 10,
+  },
+  createroombutton: {
+    textTransform: "none",
+  },
+  autorenewicon: {
+    marginRight: 10,
+  },
   paper: {
     marginBottom: 10,
   },
@@ -19,15 +35,12 @@ const useStyles = makeStyles({
 export default function ChatRoom({ userName, chatRooms, setChatRooms }) {
   const classes = useStyles();
   useEffect(() => {
-    console.log("chat room mounted");
     getChatRoomInfo();
-    return () => {
-      console.log("chat room unmounted");
-    };
+    return () => {};
   }, []);
   const getChatRoomInfo = () => {
     Axios.get("http://localhost:3333/getchatrooms").then((response) => {
-      console.log(response.data);
+      console.log("chat room info ->", response.data);
       setChatRooms(response.data);
     });
   };
@@ -59,16 +72,23 @@ export default function ChatRoom({ userName, chatRooms, setChatRooms }) {
   };
   return (
     <>
-      <h1>Hey! {userName}!</h1>
-      <h1>please select chat room</h1>
-      <h3>
+      <h1 className={classes.menu}>room select</h1>
+      <Grid container justify="center">
+        <Button
+          variant="contained"
+          onClick={getChatRoomInfo}
+          color="secondary"
+          className={classes.reloadbutton}
+        >
+          <AutorenewIcon className={classes.autorenewicon} />
+          Reload
+        </Button>
         <Link to="/createroom" className={classes.link}>
-          create room
+          <Button variant="contained" className={classes.createroombutton}>
+            create new community
+          </Button>
         </Link>
-      </h3>
-      <Button variant="contained" onClick={getChatRoomInfo}>
-        Reload
-      </Button>
+      </Grid>
       <Grid container>
         {[...chatRooms].sort(cmpLastUpdateTime).map((room) => (
           <Grid container justify="center" key={room.roomId}>
