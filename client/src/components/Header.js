@@ -23,6 +23,11 @@ const useStyles = makeStyles({
     marginRight: 14,
     textTransform: "none",
   },
+  signoutbutton: {
+    marginTop: 15,
+    marginLeft: 10,
+    textTransform: "none",
+  },
   acountcircleicon: {
     fontSize: "2rem",
     marginRight: 4,
@@ -54,7 +59,7 @@ export default function Header({ userInfo, setUserInfo }) {
             <Grid item xs={4}>
               {userInfo.userId === 0 || userInfo.userId > 0 ? (
                 <Button
-                  className={classes.statusbutton}
+                  className={classes.signoutbutton}
                   variant="outlined"
                   onClick={signOut}
                 >

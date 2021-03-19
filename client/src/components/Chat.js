@@ -86,11 +86,12 @@ const useStyles = makeStyles({
     position: "fixed",
     bottom: 0,
     left: 0,
-    height: 100,
+    height: 120,
     paddingLeft: 7,
     paddingRight: 7,
   },
   textfield: {
+    marginTop: 10,
     width: "100%",
   },
   inputboxpaper: {
