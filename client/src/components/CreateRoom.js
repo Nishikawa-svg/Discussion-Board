@@ -59,7 +59,7 @@ export default function CreateRoom({ userInfo, setChatRooms }) {
         setChatRooms(response.data);
       }
     );
-    alert(`${newRoom.roomName} + ${newRoom.content}`);
+    //alert(`${newRoom.roomName} + ${newRoom.content}`);
     setNewRoomInfo(initialState);
     history.push("/chatroom");
   };

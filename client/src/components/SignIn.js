@@ -57,7 +57,7 @@ export default function LogInForm({ setUserInfo }) {
       if (response.data.authentication) {
         console.log("sign in user info ->", response.data);
         setUserInfo(response.data.userInfo);
-        alert(response.data.message);
+        //alert(response.data.message);
         history.push("/chatroom");
       } else {
         alert(response.data.message);

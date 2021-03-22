@@ -151,7 +151,7 @@ export default function Chat({ roomId, roomName, roomContent, userName }) {
     e.preventDefault();
     const sendMessage = { roomId: roomId, name: userName, content: text };
     socket.emit("sendMessage", { sendMessage });
-    alert(text);
+    //alert(text);
     setText("");
   };
   const getDate = (input) => {
